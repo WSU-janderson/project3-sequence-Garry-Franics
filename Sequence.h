@@ -1,8 +1,12 @@
 #include <string>
 
 class Sequence {
-public:
-//TODO: What does the Sequence class need to be constructed?
+	public:
+
+	// Default constructor
+	Sequence();
+	// Parameter constructor
+	Sequence(size_t sz);
 
     Sequence(size_t sz = 0);
     Sequence(const Sequence& s);

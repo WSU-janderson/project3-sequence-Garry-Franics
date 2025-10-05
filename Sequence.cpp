@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// Creates an empty sequence (numElts == 0) or a sequence of numElts items
+// Creates an empty sequence (numElts == 0) or a sequence of numElts items TODO: what is numElts?
 // indexed from 0 ... (numElts - 1).
 Sequence::Sequence(size_t sz = 0) {
 
