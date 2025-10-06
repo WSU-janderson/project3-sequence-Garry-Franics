@@ -7,12 +7,16 @@ using namespace std;
 // Creates an empty sequence (numElts == 0) or a sequence of numElts items TODO: what is numElts?
 // indexed from 0 ... (numElts - 1).
 Sequence::Sequence(size_t sz = 0) {
-
+    : sz(sz);
 }
 
 // Creates a (deep) copy of sequence s
 Sequence::Sequence(const Sequence& s) {
-
+    SequenceNode* current = s. //TODO: How is SequenceNode used to get the head?
+    while (current) {
+        insert(current->position, current->item);
+        current = current->next;
+    }
 }
 
 // Destroys all items in the sequence and release the memory
@@ -24,7 +28,14 @@ Sequence::~Sequence() {
 // The current sequence is released and replaced by a (deep) copy of sequence
 // s. A reference to the copied sequence is returned (return *this;).
 Sequence& Sequence::operator=(const Sequence& s) {
-
+    this->sz = s.sz;
+    clear();
+    SequenceNode* current = s. //TODO: How is SequenceNode used to get the head?
+    while (current) {
+        insert(current->position, current->item);
+        current = current->next;
+    }
+    return *this;
 }
 
 // The position satisfies ( position >= 0 && position <= last_index() ).
