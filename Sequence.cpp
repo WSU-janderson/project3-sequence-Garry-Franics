@@ -1,41 +1,51 @@
 #include "Sequence.h"
 #include <cstdlib>
 #include <iostream>
+#include <exception>
 
 using namespace std;
 
-// Creates an empty sequence (numElts == 0) or a sequence of numElts items TODO: what is numElts?
+// Creates an empty sequence (numElts == 0) or a sequence of numElts items
 // indexed from 0 ... (numElts - 1).
-Sequence::Sequence(size_t sz = 0) {
-    : sz(sz);
+Sequence::Sequence(size_t sz) {
+    head = nullptr;
+    tail = nullptr;
+    num = 0;
+
+    if (sz != 0) {
+        SequenceNode *newNode;
+        newNode = new SequenceNode("head");
+        head = newNode;
+        tail = newNode;
+        num++;
+        if (sz > 1) {
+            while (num < sz) {
+                newNode = new SequenceNode(to_string(num));
+                tail->next = newNode;
+                newNode->prev = tail;
+                tail = newNode;
+                num++;
+            }
+        }
+    }
 }
+
 
 // Creates a (deep) copy of sequence s
 Sequence::Sequence(const Sequence& s) {
-    SequenceNode* current = s. //TODO: How is SequenceNode used to get the head?
-    while (current) {
-        insert(current->position, current->item);
-        current = current->next;
-    }
+
 }
 
 // Destroys all items in the sequence and release the memory
 // associated with the sequence
 Sequence::~Sequence() {
-
+    //clear();
 }
 
 // The current sequence is released and replaced by a (deep) copy of sequence
 // s. A reference to the copied sequence is returned (return *this;).
 Sequence& Sequence::operator=(const Sequence& s) {
-    this->sz = s.sz;
-    clear();
-    SequenceNode* current = s. //TODO: How is SequenceNode used to get the head?
-    while (current) {
-        insert(current->position, current->item);
-        current = current->next;
-    }
-    return *this;
+
 }
 
 // The position satisfies ( position >= 0 && position <= last_index() ).
@@ -91,7 +101,13 @@ size_t Sequence::size() const {
 // sequence is released, resetting the sequence to an empty state that can have
 // items re-inserted.
 void Sequence::clear() {
-
+    SequenceNode* current = head;
+    while (current != nullptr) {
+        SequenceNode* deathRow = current->next;
+        delete current;
+        current = deathRow;
+    }
+    head = nullptr;
 }
 
 // The item at position is removed from the sequence, and the memory

@@ -1,4 +1,7 @@
 #include <string>
+#include <ostream>
+
+using namespace std;
 
 class SequenceNode {
     public: // to make it easier, we can make the data members public so we don't need
@@ -18,16 +21,17 @@ class SequenceNode {
 
         // parameterized constructor, next and prev are set to nullptr and the
         // node's element is set to the given value
-        SequenceNode(std::string item) : next(nullptr), prev(nullptr), item(item) //TODO: is item just a string?
+        SequenceNode(std::string item) : next(nullptr), prev(nullptr), item(item)
         {}
 };
 
 class Sequence {
 	public:
+    SequenceNode *head;
+    SequenceNode *tail;
+    size_t num;
 
-	// Default constructor
-	Sequence();
-	// Parameter constructor
+	// constructor
     Sequence(size_t sz = 0);
 
     Sequence(const Sequence& s);

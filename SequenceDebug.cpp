@@ -8,10 +8,14 @@
  */
 #include <iostream>
 
+#include "Sequence.h"
+
 using namespace std;
 
 int main() {
-    cout << "Your project is ready to go!" << endl;
+
+    Sequence s(4);
+
 
     return 0;
 }
