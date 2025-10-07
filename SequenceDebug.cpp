@@ -16,6 +16,5 @@ int main() {
 
     Sequence s(2);
 
-
     return 0;
 }

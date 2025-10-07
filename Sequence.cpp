@@ -39,7 +39,7 @@ Sequence::Sequence(const Sequence& s) {
 // Destroys all items in the sequence and release the memory
 // associated with the sequence
 Sequence::~Sequence() {
-    //clear();
+    clear();
 }
 /*
 // The current sequence is released and replaced by a (deep) copy of sequence
@@ -53,14 +53,24 @@ Sequence& Sequence::operator=(const Sequence& s) {
 // sequence. Throws an exception if the position is outside the bounds
 // of the sequence
 std::string& Sequence::operator[](size_t position) {
+    if (position <=  0 || position > num) {
+        throw exception();
+    }
+    else {
 
+    }
 }
-
-// The value of item is append to the sequence.
+*/
+// The value of item is appended to the sequence.
 void Sequence::push_back(std::string item) {
-
+    SequenceNode *newNode;
+    newNode = new SequenceNode(item);
+    tail->next = newNode;
+    newNode->prev = tail;
+    tail = newNode;
+    num++;
 }
-
+/*
 // The item at the end of the sequence is deleted and size of the sequence is
 // reduced by one. If sequence was empty, throws an exception
 void Sequence::pop_back() {
