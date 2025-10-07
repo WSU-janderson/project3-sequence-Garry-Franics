@@ -70,7 +70,7 @@ void Sequence::push_back(std::string item) {
     tail = newNode;
     num++;
 }
-/*
+
 // The item at the end of the sequence is deleted and size of the sequence is
 // reduced by one. If sequence was empty, throws an exception
 void Sequence::pop_back() {
@@ -78,10 +78,15 @@ void Sequence::pop_back() {
         throw exception();
     }
     else {
-
+        SequenceNode* current = tail;
+        SequenceNode* toBeTail = current->prev;
+        delete current;
+        tail = toBeTail;
+        tail->next = nullptr;
+        num--;
     }
 }
-
+/*
 // The position satisfies ( position >= 0 && position <= last_index() ). The
 // value of item is inserted at position and the size of sequence is increased
 // by one. Throws an exception if the position is outside the bounds of the

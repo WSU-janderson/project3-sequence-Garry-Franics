@@ -14,7 +14,7 @@ using namespace std;
 
 int main() {
 
-    Sequence s(2);
+    Sequence s(0);
 
     return 0;
 }
