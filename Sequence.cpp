@@ -64,15 +64,25 @@ void Sequence::push_back(std::string item) {
 // The item at the end of the sequence is deleted and size of the sequence is
 // reduced by one. If sequence was empty, throws an exception
 void Sequence::pop_back() {
+    if (num == 0) {
+        throw exception();
+    }
+    else {
 
+    }
 }
 
 // The position satisfies ( position >= 0 && position <= last_index() ). The
 // value of item is inserted at position and the size of sequence is increased
-// by one. Throws an exceptionif the position is outside the bounds of the
+// by one. Throws an exception if the position is outside the bounds of the
 // sequence
 void Sequence::insert(size_t position, std::string item) {
+    if (position <=  0 || position > num) {
+        throw exception();
+    }
+    else {
 
+    }
 }
 */
 // Returns the first element in the sequence. If the sequence is empty, throw an
@@ -96,28 +106,35 @@ std::string Sequence::back() const {
         return tail->item;
     }
 }
-/*
+
 // Return true if the sequence has no elements, otherwise false.
 bool Sequence::empty() const {
-
+    if (num == 0) {
+    return true;
+    }
+    else {
+    return false;
+    }
 }
 
 // Return the number of elements in the sequence.
 size_t Sequence::size() const {
-
+    return this->num;
 }
-*/
+
 // All items in the sequence are deleted and the memory associated with the
 // sequence is released, resetting the sequence to an empty state that can have
 // items re-inserted.
 void Sequence::clear() {
     SequenceNode* current = head;
     while (current != nullptr) {
-        SequenceNode* deathRow = current->next;
+        SequenceNode* toBeDeleted = current->next;
         delete current;
-        current = deathRow;
+        current = toBeDeleted;
     }
     head = nullptr;
+    tail = nullptr;
+    num = 0;
 }
 /*
 // The item at position is removed from the sequence, and the memory
