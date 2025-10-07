@@ -30,18 +30,18 @@ Sequence::Sequence(size_t sz) {
     }
 }
 
-
+/*
 // Creates a (deep) copy of sequence s
 Sequence::Sequence(const Sequence& s) {
 
 }
-
+*/
 // Destroys all items in the sequence and release the memory
 // associated with the sequence
 Sequence::~Sequence() {
     //clear();
 }
-
+/*
 // The current sequence is released and replaced by a (deep) copy of sequence
 // s. A reference to the copied sequence is returned (return *this;).
 Sequence& Sequence::operator=(const Sequence& s) {
@@ -74,19 +74,29 @@ void Sequence::pop_back() {
 void Sequence::insert(size_t position, std::string item) {
 
 }
-
+*/
 // Returns the first element in the sequence. If the sequence is empty, throw an
 // exception.
 std::string Sequence::front() const {
-
+    if (num == 0) {
+        throw exception();
+    }
+    else {
+        return head->item;
+    }
 }
 
 // Return the last element in the sequence. If the sequence is empty, throw an
 // exception.
 std::string Sequence::back() const {
-
+    if (num == 0) {
+        throw exception();
+    }
+    else {
+        return tail->item;
+    }
 }
-
+/*
 // Return true if the sequence has no elements, otherwise false.
 bool Sequence::empty() const {
 
@@ -96,7 +106,7 @@ bool Sequence::empty() const {
 size_t Sequence::size() const {
 
 }
-
+*/
 // All items in the sequence are deleted and the memory associated with the
 // sequence is released, resetting the sequence to an empty state that can have
 // items re-inserted.
@@ -109,7 +119,7 @@ void Sequence::clear() {
     }
     head = nullptr;
 }
-
+/*
 // The item at position is removed from the sequence, and the memory
 // is released. If called with an invalid position throws an exception.
 void Sequence::erase(size_t position) {
@@ -127,5 +137,5 @@ void Sequence::erase(size_t position, size_t count) {
 // stream. This is *not* a method of the Sequence class, but instead it is a
 // friend function
 friend ostream& operator<<(ostream& os, const Sequence& s) {
-
-}
+    TODO: why does friend not belong here?
+}*/
