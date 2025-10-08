@@ -5,8 +5,11 @@
 
 using namespace std;
 
-// Creates an empty sequence (numElts == 0) or a sequence of numElts items
-// indexed from 0 ... (numElts - 1).
+// Creates an empty sequence (num == 0) or a sequence of num items
+// indexed from 0 ... (num) not num - 1. just num
+// I know it SHOULD be num - 1 but when we were making the constructor
+// we set it up so that index 0 was num 1 and I didn't think to fix that
+// before making all of the functions that require num. so...
 Sequence::Sequence(size_t sz) {
     head = nullptr;
     tail = nullptr;

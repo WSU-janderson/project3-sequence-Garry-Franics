@@ -15,15 +15,6 @@ using namespace std;
 int main() {
 
     Sequence s(3);
-    cout << s << endl;
-    cout << s[1] << endl;
-    s.insert(2, "7");
-    cout << s << endl;
-    cout << s[1] << endl;
-    string front = s.front();
-    cout << front << endl;
-    string back = s.back();
-    cout << back << endl;
 
     return 0;
 }
