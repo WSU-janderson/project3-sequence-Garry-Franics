@@ -6,10 +6,10 @@
 using namespace std;
 
 // Creates an empty sequence (num == 0) or a sequence of num items
-// indexed from 0 ... (num) not num - 1. just num
+// indexed from 0 ... (num). Not num - 1. just num
 // I know it SHOULD be num - 1 but when we were making the constructor
-// we set it up so that index 0 was num 1 and I didn't think to fix that
-// before making all of the functions that require num. so...
+// we set it up so that index 0 was num 1. I didn't think to fix that
+// before making all the functions that require num. So...
 Sequence::Sequence(size_t sz) {
     head = nullptr;
     tail = nullptr;
@@ -33,24 +33,42 @@ Sequence::Sequence(size_t sz) {
     }
 }
 
-/*
 // Creates a (deep) copy of sequence s
 Sequence::Sequence(const Sequence& s) {
+    SequenceNode* copier = s.head;
 
+    while (copier) {
+        push_back(copier->item);
+        copier = copier->next;
+    }
 }
-*/
+
 // Destroys all items in the sequence and release the memory
 // associated with the sequence
 Sequence::~Sequence() {
     clear();
 }
-/*
+
 // The current sequence is released and replaced by a (deep) copy of sequence
 // s. A reference to the copied sequence is returned (return *this;).
 Sequence& Sequence::operator=(const Sequence& s) {
 
+    this->head = s.head;
+    this->tail = s.tail;
+    this->num = s.num;
+
+    clear();
+
+    SequenceNode* copier = s.head;
+
+    while (copier) {
+        push_back(copier->item);
+        copier = copier->next;
+    }
+
+    return *this;
 }
-*/
+
 // The position satisfies ( position >= 0 && position <= last_index() ).
 // The return value is a reference to the item at index position in the
 // sequence. Throws an exception if the position is outside the bounds

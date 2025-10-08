@@ -14,7 +14,7 @@ using namespace std;
 
 int main() {
 
-    Sequence s(3);
+    Sequence debug(10);
 
     return 0;
 }
