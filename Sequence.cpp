@@ -35,6 +35,10 @@ Sequence::Sequence(size_t sz) {
 
 // Creates a (deep) copy of sequence s
 Sequence::Sequence(const Sequence& s) {
+    head = nullptr;
+    tail = nullptr;
+    num = 0;
+
     SequenceNode* copier = s.head;
 
     while (copier) {
@@ -52,11 +56,6 @@ Sequence::~Sequence() {
 // The current sequence is released and replaced by a (deep) copy of sequence
 // s. A reference to the copied sequence is returned (return *this;).
 Sequence& Sequence::operator=(const Sequence& s) {
-
-    this->head = s.head;
-    this->tail = s.tail;
-    this->num = s.num;
-
     clear();
 
     SequenceNode* copier = s.head;
@@ -87,6 +86,14 @@ std::string& Sequence::operator[](size_t position) {
 
 // The value of item is appended to the sequence.
 void Sequence::push_back(std::string item) {
+    if (num == 0) {
+        SequenceNode *newNode;
+        newNode = new SequenceNode(item);
+        head = newNode;
+        tail = newNode;
+        num++;
+        return;
+    }
     SequenceNode *newNode;
     newNode = new SequenceNode(item);
     tail->next = newNode;
@@ -117,7 +124,7 @@ void Sequence::insert(size_t position, std::string item) {
     if (position > num) {
         throw exception();
     }
-    SequenceNode *inserter;
+    SequenceNode *inserter; //TODO: consider making not stupid
     for (size_t i = num; i > position; i--) {
         if (i == num) {
             inserter = new SequenceNode();
