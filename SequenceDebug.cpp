@@ -16,9 +16,7 @@ int main() {
 
     Sequence s(3);
 
-    cout << s[1] << endl;
-    s[1] = "5";
-    cout << s[1] << endl;
+    cout << s;
 
     return 0;
 }

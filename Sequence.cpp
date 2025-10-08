@@ -57,12 +57,12 @@ std::string& Sequence::operator[](size_t position) {
         throw exception();
     }
     else {
-        SequenceNode *newNode;
-        newNode = head;
+        SequenceNode *finder;
+        finder = head;
         for (int i = 0; i < position; i++) {
-            newNode = newNode->next;
+            finder = finder->next;
         }
-        return newNode->item;
+        return finder->item;
     }
 }
 
@@ -174,7 +174,11 @@ void Sequence::erase(size_t position, size_t count) {
 // stream. This is *not* a method of the Sequence class, but instead it is a
 // friend function
 ostream& operator<<(ostream& os, const Sequence& s) {
-
-
+    SequenceNode *finder;
+    finder = s.head;
+    for (int i = 0; i < s.num; i++) {
+        cout << finder->item << " ";
+        finder = finder->next;
+    }
     return os;
 }
