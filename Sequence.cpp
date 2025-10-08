@@ -53,17 +53,15 @@ Sequence& Sequence::operator=(const Sequence& s) {
 // sequence. Throws an exception if the position is outside the bounds
 // of the sequence
 std::string& Sequence::operator[](size_t position) {
-    if (position <  0 || position > num) {
+    if (position > num) {
         throw exception();
     }
-    else {
-        SequenceNode *finder;
-        finder = head;
-        for (int i = 0; i < position; i++) {
-            finder = finder->next;
-        }
-        return finder->item;
+    SequenceNode *finder;
+    finder = head;
+    for (int i = 0; i < position; i++) {
+        finder = finder->next;
     }
+    return finder->item;
 }
 
 // The value of item is appended to the sequence.
@@ -82,38 +80,46 @@ void Sequence::pop_back() {
     if (num == 0) {
         throw exception();
     }
-    else {
-        SequenceNode* current = tail;
-        SequenceNode* toBeTail = current->prev;
-        delete current;
-        tail = toBeTail;
-        tail->next = nullptr;
-        num--;
-    }
+    SequenceNode* current = tail;
+    SequenceNode* toBeTail = current->prev;
+    delete current;
+    tail = toBeTail;
+    tail->next = nullptr;
+    num--;
 }
-/*
+
 // The position satisfies ( position >= 0 && position <= last_index() ). The
 // value of item is inserted at position and the size of sequence is increased
 // by one. Throws an exception if the position is outside the bounds of the
 // sequence
 void Sequence::insert(size_t position, std::string item) {
-    if (position <=  0 || position > num) {
+    if (position > num) {
         throw exception();
     }
-    else {
-
+    SequenceNode *inserter;
+    for (size_t i = num; i > position; i--) {
+        if (i == num) {
+            inserter = new SequenceNode();
+            tail->next = inserter;
+            inserter->prev = tail;
+            inserter->item = tail->item;
+            tail = inserter;
+            inserter = inserter->prev;
+        }
+        inserter = inserter->prev;
+        inserter->next->item = inserter->item;
     }
+    inserter->item = item;
+    num++;
 }
-*/
+
 // Returns the first element in the sequence. If the sequence is empty, throw an
 // exception.
 std::string Sequence::front() const {
     if (num == 0) {
         throw exception();
     }
-    else {
-        return head->item;
-    }
+    return head->item;
 }
 
 // Return the last element in the sequence. If the sequence is empty, throw an
@@ -122,19 +128,15 @@ std::string Sequence::back() const {
     if (num == 0) {
         throw exception();
     }
-    else {
-        return tail->item;
-    }
+    return tail->item;
 }
 
 // Return true if the sequence has no elements, otherwise false.
 bool Sequence::empty() const {
     if (num == 0) {
-    return true;
+        return true;
     }
-    else {
     return false;
-    }
 }
 
 // Return the number of elements in the sequence.
