@@ -124,21 +124,7 @@ void Sequence::insert(size_t position, std::string item) {
     if (position > num) {
         throw exception();
     }
-    SequenceNode *inserter; //TODO: consider making not stupid
-    for (size_t i = num; i > position; i--) {
-        if (i == num) {
-            inserter = new SequenceNode();
-            tail->next = inserter;
-            inserter->prev = tail;
-            inserter->item = tail->item;
-            tail = inserter;
-            inserter = inserter->prev;
-        }
-        inserter = inserter->prev;
-        inserter->next->item = inserter->item;
-    }
-    inserter->item = item;
-    num++;
+
 }
 
 // Returns the first element in the sequence. If the sequence is empty, throw an
