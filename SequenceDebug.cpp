@@ -14,7 +14,11 @@ using namespace std;
 
 int main() {
 
-    Sequence s(0);
+    Sequence s(3);
+
+    cout << s[1] << endl;
+    s[1] = "5";
+    cout << s[1] << endl;
 
     return 0;
 }

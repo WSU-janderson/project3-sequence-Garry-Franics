@@ -47,20 +47,25 @@ Sequence::~Sequence() {
 Sequence& Sequence::operator=(const Sequence& s) {
 
 }
-
+*/
 // The position satisfies ( position >= 0 && position <= last_index() ).
 // The return value is a reference to the item at index position in the
 // sequence. Throws an exception if the position is outside the bounds
 // of the sequence
 std::string& Sequence::operator[](size_t position) {
-    if (position <=  0 || position > num) {
+    if (position <  0 || position > num) {
         throw exception();
     }
     else {
-
+        SequenceNode *newNode;
+        newNode = head;
+        for (int i = 0; i < position; i++) {
+            newNode = newNode->next;
+        }
+        return newNode->item;
     }
 }
-*/
+
 // The value of item is appended to the sequence.
 void Sequence::push_back(std::string item) {
     SequenceNode *newNode;
@@ -164,10 +169,12 @@ void Sequence::erase(size_t position) {
 void Sequence::erase(size_t position, size_t count) {
 
 }
-
+*/
 // Outputs all elements (ex: <4, 8, 15, 16, 23, 42>) as a string to the output
 // stream. This is *not* a method of the Sequence class, but instead it is a
 // friend function
-friend ostream& operator<<(ostream& os, const Sequence& s) {
-    TODO: why does friend not belong here?
-}*/
+ostream& operator<<(ostream& os, const Sequence& s) {
+
+
+    return os;
+}
