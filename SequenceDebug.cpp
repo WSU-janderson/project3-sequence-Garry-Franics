@@ -16,7 +16,9 @@ int main() {
 
     Sequence debug(5);
     cout << debug << endl;
-    debug.insert(2, "NEW!!!");
+    debug.insert(3, "NEW!!!");
+    cout << debug << endl;
+    debug.erase(5);
     cout << debug << endl;
 
     return 0;

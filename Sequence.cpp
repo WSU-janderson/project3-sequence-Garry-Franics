@@ -146,7 +146,7 @@ void Sequence::insert(size_t position, std::string item) {
     // For when we are inserting at literally anywhere else
     else {
         SequenceNode* current = head;
-        for (size_t i = 0; i < position; i++) {
+        for (int i = 0; i < position; i++) {
             current = current->next;
         }
         inserter->prev = current->prev;
@@ -203,13 +203,51 @@ void Sequence::clear() {
     tail = nullptr;
     num = 0;
 }
-/*
+
 // The item at position is removed from the sequence, and the memory
 // is released. If called with an invalid position throws an exception.
 void Sequence::erase(size_t position) {
-
+    // For when you try to delete out of bounds
+    if (position >= num) {
+        throw exception();
+    }
+    SequenceNode* current = head;
+    // Move to the position in the list
+    for (size_t i = 0; i < position; i++) {
+        current = current->next;
+    }
+    // For when we are deleting the head
+    if (position == 0) {
+        // For when the head is the only item in the list
+        if (num == 1) {
+            delete current;
+            head = nullptr;
+            tail = nullptr;
+        }
+        // Not empty after deletion, move head forward
+        else {
+            head = current->next;
+            head->prev = nullptr;
+            delete current;
+        }
+    }
+    // For when we are deleting the tail
+    else if (position == num - 1) {
+        tail = current->prev;
+        tail->next = nullptr;
+        delete current;
+    }
+    // For when we are deleting literally anywhere else
+    else {
+        current->prev->next = current->next;
+        current->next->prev = current->prev;
+        delete current;
+    }
+    // Decrease num by 1
+    num--;
 }
 
+/*
 // The items in the sequence at ( position ... (position + count - 1) ) are
 // deleted and their memory released. If called with invalid position and/or
 // count throws an exception.
