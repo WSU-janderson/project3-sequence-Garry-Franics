@@ -9,15 +9,15 @@ using namespace std;
 // indexed from 0 ... (num). Not num - 1. just num
 // I know it SHOULD be num - 1 but when we were making the constructor
 // we set it up so that index 0 was num 1. I didn't think to fix that
-// before making all the functions that require num. So...
+// before making all the functions that require num, and now I don't know what
+// it will break if I do (I assume everything).
 Sequence::Sequence(size_t sz) {
     head = nullptr;
     tail = nullptr;
     num = 0;
 
     if (sz != 0) {
-        SequenceNode *newNode;
-        newNode = new SequenceNode("head");
+        SequenceNode *newNode = new SequenceNode("0");
         head = newNode;
         tail = newNode;
         num++;
@@ -76,8 +76,7 @@ std::string& Sequence::operator[](size_t position) {
     if (position > num) {
         throw exception();
     }
-    SequenceNode *finder;
-    finder = head;
+    SequenceNode *finder = head;
     for (int i = 0; i < position; i++) {
         finder = finder->next;
     }
@@ -87,15 +86,13 @@ std::string& Sequence::operator[](size_t position) {
 // The value of item is appended to the sequence.
 void Sequence::push_back(std::string item) {
     if (num == 0) {
-        SequenceNode *newNode;
-        newNode = new SequenceNode(item);
+        SequenceNode *newNode = new SequenceNode(item);
         head = newNode;
         tail = newNode;
         num++;
         return;
     }
-    SequenceNode *newNode;
-    newNode = new SequenceNode(item);
+    SequenceNode *newNode = new SequenceNode(item);
     tail->next = newNode;
     newNode->prev = tail;
     tail = newNode;
@@ -121,10 +118,44 @@ void Sequence::pop_back() {
 // by one. Throws an exception if the position is outside the bounds of the
 // sequence
 void Sequence::insert(size_t position, std::string item) {
+    // For when you try to insert out of bounds
     if (position > num) {
         throw exception();
     }
-
+    SequenceNode* inserter = new SequenceNode(item);
+    // For when we are inserting at the head
+    if (position == 0) {
+        // Empty sequence, it is both head and tail
+        if (num == 0) {
+            head = inserter;
+            tail = inserter;
+        }
+        // Not empty, but it is at the head
+        else {
+            inserter->next = head;
+            head->prev = inserter;
+            head = inserter;
+        }
+    }
+    // For when we are inserting at the tail
+    else if (position == num) {
+            tail->next = inserter;
+            inserter->prev = tail;
+            tail = inserter;
+        }
+    // For when we are inserting at literally anywhere else
+    else {
+        SequenceNode* current = head;
+        for (size_t i = 0; i < position; i++) {
+            current = current->next;
+        }
+        inserter->prev = current->prev;
+        inserter->next = current;
+        current->prev->next = inserter;
+        current->prev = inserter;
+    }
+    // Increase num by 1
+    num++;
 }
 
 // Returns the first element in the sequence. If the sequence is empty, throw an
@@ -190,11 +221,10 @@ void Sequence::erase(size_t position, size_t count) {
 // stream. This is *not* a method of the Sequence class, but instead it is a
 // friend function
 ostream& operator<<(ostream& os, const Sequence& s) {
-    SequenceNode *finder;
-    finder = s.head;
+    SequenceNode *printer = s.head;
     for (int i = 0; i < s.num; i++) {
-        cout << finder->item << " ";
-        finder = finder->next;
+        cout << printer->item << " ";
+        printer = printer->next;
     }
     return os;
 }

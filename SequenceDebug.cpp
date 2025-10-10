@@ -14,7 +14,10 @@ using namespace std;
 
 int main() {
 
-    Sequence debug(7);
+    Sequence debug(5);
+    cout << debug << endl;
+    debug.insert(2, "NEW!!!");
+    cout << debug << endl;
 
     return 0;
 }
