@@ -9,18 +9,11 @@
 
 #include <iostream>
 #include "Sequence.h"
-
 using namespace std;
 
 int main() {
 
     Sequence debug(5);
-    cout << debug << endl;
-    debug.insert(5, "hello");
-    cout << debug << endl;
-    debug.erase(2,3);
-    cout << debug << endl;
-    cout << debug.back() << endl;
 
     return 0;
 }

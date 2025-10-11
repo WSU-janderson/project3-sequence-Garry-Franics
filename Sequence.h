@@ -1,3 +1,15 @@
+/*-------------------------------------------------------------------------------------------
+* Name: Garry Francis
+* Project: Sequence
+*
+* This is the header file for the Sequence class. It contains the declarations the constructor
+* and all the functions. This file includes declarations for: the Sequence class, the Sequence
+* constructor, the SequenceNode class, the SequenceNode constructor the sequence destructor,
+* the = and [] operator overrides, the push_back function, * the pop_back function,
+* the insert function, the front function, the back function, the empty function, the size
+* function, the clear function, both erase functions, and the ostream integration/override.
+* -----------------------------------------------------------------------------------------*/
+
 #include <string>
 #include <ostream>
 
@@ -26,14 +38,16 @@ class SequenceNode {
 };
 
 class Sequence {
+    // Declaration of Sequence class
 	public:
     SequenceNode *head;
     SequenceNode *tail;
     size_t num;
 
-	// constructor
+	// constructor declaration
     Sequence(size_t sz = 0);
 
+    // every function declaration
     Sequence(const Sequence& s);
     ~Sequence();
     Sequence& operator=(const Sequence& s);
@@ -49,5 +63,4 @@ class Sequence {
     void erase(size_t position);
     void erase(size_t position, size_t count);
     friend ostream& operator<<(ostream& os, const Sequence& s);
-
 };

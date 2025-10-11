@@ -1,3 +1,14 @@
+/*-------------------------------------------------------------------------------------------
+* Name: Garry Francis
+* Project: Sequence
+*
+* This is the cpp file for the Sequence class. It contains the constructor and all
+* the function definitions. This file includes: the Sequence constructor, the sequence
+* destructor, the = and [] operator overrides, the push_back function, the pop_back function,
+* the insert function, the front function, the back function, the empty function, the size
+* function, the clear function, both erase functions, and the ostream integration/override.
+* -----------------------------------------------------------------------------------------*/
+
 #include "Sequence.h"
 #include <cstdlib>
 #include <iostream>
@@ -6,26 +17,34 @@
 using namespace std;
 
 // Creates an empty sequence (num == 0) or a sequence of num items
-// indexed from 0 ... (num). Not num - 1. just num
-// I know it SHOULD be num - 1 but when we were making the constructor
-// we set it up so that index 0 was num 1. I didn't think to fix that
-// before making all the functions that require num, and now I don't know what
-// it will break if I do (I assume everything).
+// indexed from 0 ... (num - 1).
 Sequence::Sequence(size_t sz) {
+    // Creates an empty sequence (sz = 0)
     head = nullptr;
     tail = nullptr;
     num = 0;
 
+    // For if you didn't make an empty sequence
+    // For a sequence of 1 item
     if (sz != 0) {
+        // Make a new node
         SequenceNode *newNode = new SequenceNode("0");
+        // Make that node head and tail of the sequence
         head = newNode;
         tail = newNode;
+        // Increase num by one
         num++;
+
+        // For a sequence of more than one item
         if (sz > 1) {
             while (num < sz) {
+                // Make a new node
                 newNode = new SequenceNode(to_string(num));
+                // Make the tail have newNode as next
                 tail->next = newNode;
+                // Make newNode have the tail as previous
                 newNode->prev = tail;
+                // Make newNode the tail
                 tail = newNode;
                 num++;
             }
@@ -35,12 +54,15 @@ Sequence::Sequence(size_t sz) {
 
 // Creates a (deep) copy of sequence s
 Sequence::Sequence(const Sequence& s) {
+    // Makes the sequence empty
     head = nullptr;
     tail = nullptr;
     num = 0;
 
+    // Makes a pointer for copying values
     SequenceNode* copier = s.head;
 
+    // Copies every value from the original sequence
     while (copier) {
         push_back(copier->item);
         copier = copier->next;
@@ -50,21 +72,24 @@ Sequence::Sequence(const Sequence& s) {
 // Destroys all items in the sequence and release the memory
 // associated with the sequence
 Sequence::~Sequence() {
+    // Calls the clear function
     clear();
 }
 
 // The current sequence is released and replaced by a (deep) copy of sequence
 // s. A reference to the copied sequence is returned (return *this;).
 Sequence& Sequence::operator=(const Sequence& s) {
+    // Clears the sequence that called the function
     clear();
-
+    // Makes a pointer for copying values
     SequenceNode* copier = s.head;
 
+    // Copies every value from the original sequence
     while (copier) {
         push_back(copier->item);
         copier = copier->next;
     }
-
+    // Returns the new sequence
     return *this;
 }
 
@@ -73,43 +98,63 @@ Sequence& Sequence::operator=(const Sequence& s) {
 // sequence. Throws an exception if the position is outside the bounds
 // of the sequence
 std::string& Sequence::operator[](size_t position) {
+    // For when you try to go outside the sequence
     if (position > num) {
         throw exception();
     }
+    // Makes a pointer for finding the desired value
     SequenceNode *finder = head;
+
+    // Moves through the sequence until the value is reached
     for (int i = 0; i < position; i++) {
         finder = finder->next;
     }
+    // Returns the reached value
     return finder->item;
 }
 
 // The value of item is appended to the sequence.
 void Sequence::push_back(std::string item) {
+    // Has to do a special construction for if the sequence is empty
     if (num == 0) {
+        // Makes a new node
         SequenceNode *newNode = new SequenceNode(item);
+        // Makes newNode head and tail
         head = newNode;
         tail = newNode;
+        // Increase num by one
         num++;
         return;
     }
+    // Makes a new node
     SequenceNode *newNode = new SequenceNode(item);
+    // Make the tail have newNode as next
     tail->next = newNode;
+    // Make newNode have the tail as previous
     newNode->prev = tail;
+    // Make newNode the tail
     tail = newNode;
+    // Increase num by one
     num++;
 }
 
 // The item at the end of the sequence is deleted and size of the sequence is
 // reduced by one. If sequence was empty, throws an exception
 void Sequence::pop_back() {
+    // For when you try to delete from an empty sequence
     if (num == 0) {
         throw exception();
     }
+    // Make a pointer at the tail
     SequenceNode* current = tail;
+    // Make a pointer at the node before the tail
     SequenceNode* toBeTail = current->prev;
+    // Delete the tail
     delete current;
+    // Change the previous node to tail
     tail = toBeTail;
     tail->next = nullptr;
+    // Decrease num by one
     num--;
 }
 
@@ -127,28 +172,39 @@ void Sequence::insert(size_t position, std::string item) {
     if (position == 0) {
         // Empty sequence, it is both head and tail
         if (num == 0) {
+            // Make the node both head and tail
             head = inserter;
             tail = inserter;
         }
         // Not empty, but it is at the head
         else {
+            // Make the inserters next the head
             inserter->next = head;
+            // Make the heads previous the inserter
             head->prev = inserter;
+            // Make the inserter the head
             head = inserter;
         }
     }
     // For when we are inserting at the tail
     else if (position == num) {
-            tail->next = inserter;
-            inserter->prev = tail;
-            tail = inserter;
-        }
+        // Make the tails next the inserter
+        tail->next = inserter;
+        // Make the inserters previous the tail
+        inserter->prev = tail;
+        // Make the inserter the tail
+        tail = inserter;
+    }
     // For when we are inserting at literally anywhere else
     else {
+        // Make a pointer for tracking position
         SequenceNode* current = head;
+        // Move through the sequence until position is reached
         for (int i = 0; i < position; i++) {
             current = current->next;
         }
+        // There's a lot of pointers being moved here but the inserter gets
+        // Put between the two values around the current pointer.
         inserter->prev = current->prev;
         inserter->next = current;
         current->prev->next = inserter;
@@ -161,31 +217,39 @@ void Sequence::insert(size_t position, std::string item) {
 // Returns the first element in the sequence. If the sequence is empty, throw an
 // exception.
 std::string Sequence::front() const {
+    // For when you try to get a value from an empty sequence
     if (num == 0) {
         throw exception();
     }
+    // Returns the head
     return head->item;
 }
 
 // Return the last element in the sequence. If the sequence is empty, throw an
 // exception.
 std::string Sequence::back() const {
+    // For when you try to get a value from an empty sequence
     if (num == 0) {
         throw exception();
     }
+    // Returns the tail
     return tail->item;
 }
 
 // Return true if the sequence has no elements, otherwise false.
 bool Sequence::empty() const {
+    // Checks if the sequence is empty
     if (num == 0) {
+        // Returns true if it is
         return true;
     }
+    // Returns false if it isn't
     return false;
 }
 
 // Return the number of elements in the sequence.
 size_t Sequence::size() const {
+    // Returns the size
     return this->num;
 }
 
@@ -193,12 +257,15 @@ size_t Sequence::size() const {
 // sequence is released, resetting the sequence to an empty state that can have
 // items re-inserted.
 void Sequence::clear() {
+    // Makes a pointer at the head
     SequenceNode* current = head;
+    // Deletes every item in the sequence
     while (current != nullptr) {
         SequenceNode* toBeDeleted = current->next;
         delete current;
         current = toBeDeleted;
     }
+    // Sets head and tail to null and num to 0
     head = nullptr;
     tail = nullptr;
     num = 0;
@@ -211,17 +278,20 @@ void Sequence::erase(size_t position) {
     if (position >= num) {
         throw exception();
     }
+    // Make a pointer for the position
     SequenceNode* current;
     // For when we are deleting the head
     if (position == 0) {
         current = head;
         // For when the head is the only item in the list
         if (num == 1) {
+            // Set head and tail to null
             head = nullptr;
             tail = nullptr;
         }
         // Not empty after deletion, move head forward
         else {
+            // set head to the next item and set previous to null
             head = current->next;
             head->prev = nullptr;
         }
@@ -229,6 +299,7 @@ void Sequence::erase(size_t position) {
     // For when we are deleting the tail
     else if (position == num - 1) {
         current = tail;
+        // set tail to the previous item and set next to null
         tail = current->prev;
         tail->next = nullptr;
     }
@@ -239,6 +310,8 @@ void Sequence::erase(size_t position) {
         for (size_t i = 0; i < position; i++) {
             current = current->next;
         }
+        // More pointers moving around but the items before and after current
+        // are set to point at each other instead of current
         current->prev->next = current->next;
         current->next->prev = current->prev;
     }
@@ -266,6 +339,7 @@ void Sequence::erase(size_t position, size_t count) {
 // friend function
 ostream& operator<<(ostream& os, const Sequence& s) {
     SequenceNode *printer = s.head;
+    // Prints out each item in the sequence
     for (int i = 0; i < s.num; i++) {
         cout << printer->item << " ";
         printer = printer->next;
