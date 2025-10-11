@@ -211,16 +211,12 @@ void Sequence::erase(size_t position) {
     if (position >= num) {
         throw exception();
     }
-    SequenceNode* current = head;
-    // Move to the position in the list
-    for (size_t i = 0; i < position; i++) {
-        current = current->next;
-    }
+    SequenceNode* current;
     // For when we are deleting the head
     if (position == 0) {
+        current = head;
         // For when the head is the only item in the list
         if (num == 1) {
-            delete current;
             head = nullptr;
             tail = nullptr;
         }
@@ -228,33 +224,43 @@ void Sequence::erase(size_t position) {
         else {
             head = current->next;
             head->prev = nullptr;
-            delete current;
         }
     }
     // For when we are deleting the tail
     else if (position == num - 1) {
+        current = tail;
         tail = current->prev;
         tail->next = nullptr;
-        delete current;
     }
     // For when we are deleting literally anywhere else
     else {
+        current = head;
+        // Move to the position in the list
+        for (size_t i = 0; i < position; i++) {
+            current = current->next;
+        }
         current->prev->next = current->next;
         current->next->prev = current->prev;
-        delete current;
     }
-    // Decrease num by 1
+    // Delete the item and decrease num by 1
+    delete current;
     num--;
 }
 
-/*
 // The items in the sequence at ( position ... (position + count - 1) ) are
 // deleted and their memory released. If called with invalid position and/or
 // count throws an exception.
 void Sequence::erase(size_t position, size_t count) {
-
+    // For when you try to delete out of bounds
+    if (position >= num || position + count > num) {
+        throw exception();
+    }
+    // Reuse the singular erase function to remove each item
+    for (size_t i = 0; i < count; i++) {
+        erase(position);
+    }
 }
-*/
+
 // Outputs all elements (ex: <4, 8, 15, 16, 23, 42>) as a string to the output
 // stream. This is *not* a method of the Sequence class, but instead it is a
 // friend function
