@@ -16,10 +16,11 @@ int main() {
 
     Sequence debug(5);
     cout << debug << endl;
-    debug.insert(3, "NEW!!!");
+    debug.insert(5, "hello");
     cout << debug << endl;
-    debug.erase(5);
+    debug.erase(2,3);
     cout << debug << endl;
+    cout << debug.back() << endl;
 
     return 0;
 }
